@@ -8,7 +8,15 @@ module _ {a : Level} {A : Set a} where
 
   init : List A → List A
   init xs = take (length xs - 1) xs
-  
+
+  intersperse : A → List A → List A
+  intersperse _   []       = []
+  intersperse sep (y ∷ xs) = y ∷ prependToAll sep xs
+    where
+    prependToAll : A → List A → List A
+    prependToAll _    []       = []
+    prependToAll sep (x ∷ xs) = sep ∷ x ∷ prependToAll sep xs
+
   breakAll : (p : A → Bool) (xs : List A) → List (List A)
   breakAll p xs =
     let (hd , tl) = foldr step ([] , []) xs
